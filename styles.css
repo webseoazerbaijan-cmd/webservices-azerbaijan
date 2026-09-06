@@ -635,6 +635,23 @@ button {
   background: linear-gradient(135deg, #164e63, #0f172a);
 }
 
+.mockup-screen.with-image {
+  min-height: 210px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.project-media a.media-link {
+  display: block;
+  text-decoration: none;
+}
+
+.project-item:hover .mockup-screen.with-image {
+  transform: scale(1.02);
+}
+
 .screen-content {
   text-align: center;
 }
