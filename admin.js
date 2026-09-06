@@ -1,5 +1,6 @@
 /**
  * WebServices Azerbaijan — Admin Panel Logic
+ * Təkmilləşdirilmiş Versiya: Şəkil yükləmə və Canlı Link dəstəyi ilə
  */
 
 // Default Sayt Məlumatları
@@ -29,6 +30,8 @@ const defaultSiteData = {
       title: "Forma Architecture & Design",
       category: "corporate",
       url: "forma-architecture.az",
+      liveUrl: "https://forma-architecture.az",
+      imageUrl: "",
       stat: "Sürət: 99/100 • Google Top 1",
       desc: "Müasir memarlıq və interyer dizayn şirkəti üçün fərdi minimalist veb sayt. Ağır portfel şəkillərinin keyfiyyət itkisi olmadan dərhal açılması təmin edilib.",
       tags: ["Fərdi Veb Tərtibatı", "Ultra Sürət (0.3s)", "+160% Üzvi Sorğu"]
@@ -38,6 +41,8 @@ const defaultSiteData = {
       title: "Baku Moda Online Store",
       category: "ecommerce",
       url: "baku-modashop.az",
+      liveUrl: "https://baku-modashop.az",
+      imageUrl: "",
       stat: "Kartla Ödəniş • 2.8x Satış Artımı",
       desc: "1000-dən artıq məhsul çeşidi olan geyim mağazasının tam e-ticarət sistemi. Bank kartları ilə onlayn ödəniş, avtomatik kuryer bildirişi və rahat sifariş səbəti.",
       tags: ["Onlayn Ödəniş İnteqrasiyası", "Sürətli Məhsul Filteri", "+85% Satış Artımı"]
@@ -47,6 +52,8 @@ const defaultSiteData = {
       title: "Logix Beynəlxalq Karqo & Logistika",
       category: "seo",
       url: "logix-cargo.az",
+      liveUrl: "https://logix-cargo.az",
+      imageUrl: "",
       stat: "Axtarışda İlk Sırada • 100% Green CWV",
       desc: "Daşıma və yük izləmə sistemi olan karqo şirkəti üçün korporativ platforma. Həyata keçirilən texniki SEO nəticəsində əsas açar sözlər üzrə Google-da ilk 3 pilləyə yüksəlib.",
       tags: ["Google 1-ci Pillə", "Bağlama İzləmə Sistemi", "Həftəlik +2400 Ziyarətçi"]
@@ -56,6 +63,8 @@ const defaultSiteData = {
       title: "Prime Dental & Health Mərkəzi",
       category: "corporate",
       url: "prime-clinic.az",
+      liveUrl: "https://prime-clinic.az",
+      imageUrl: "",
       stat: "Onlayn Qəbul • Lokal SEO",
       desc: "Klinika üçün pasiyentlərin həkimləri seçərək vaxt təyin edə bildiyi onlayn qeydiyyat sistemi. Bakı üzrə lokal SEO və xəritə optimizasiyası ilə təchiz olunub.",
       tags: ["Onlayn Həkim Qəbulu", "Google Maps Optimizasiyası", "Sadə İdarəetmə"]
@@ -95,8 +104,9 @@ const defaultSiteData = {
   }
 };
 
-// Hal-hazırdakı məlumatlar
 let currentData = JSON.parse(JSON.stringify(defaultSiteData));
+let currentProjectImage = '';
+let editingProjectIndex = -1;
 
 function loadSavedData() {
   const saved = localStorage.getItem('webservices_site_data');
@@ -179,7 +189,7 @@ function updateLogoPreview() {
   document.getElementById('prevLogoText').innerHTML = `${name}<span class="logo-accent">${acc}</span>`;
 }
 
-// Portfolio Layihələrinin Siyahısı
+// Portfolio Layihələrinin Siyahısı (Şəkil və Linklə)
 function renderAdminProjects() {
   const container = document.getElementById('projectsListAdmin');
   if (!container) return;
@@ -193,10 +203,22 @@ function renderAdminProjects() {
   currentData.portfolio.forEach((p, idx) => {
     const card = document.createElement('div');
     card.className = 'admin-project-card';
+
+    const thumbHTML = p.imageUrl 
+      ? `<img src="${p.imageUrl}" class="admin-project-thumb" alt="${p.title}">` 
+      : `<div class="admin-project-thumb" style="background: linear-gradient(135deg, #1e293b, #0f172a); display: flex; align-items: center; justify-content: center; font-size: 10px; color: #94a3b8;">Maket</div>`;
+
+    const liveLinkHTML = p.liveUrl 
+      ? `<a href="${p.liveUrl}" target="_blank" style="color: var(--accent-cyan); text-decoration: underline; margin-left: 5px;">Keçid ↗</a>` 
+      : '';
+
     card.innerHTML = `
-      <div class="p-meta">
-        <h4>${p.title}</h4>
-        <p>${p.category.toUpperCase()} &bull; ${p.url || ''} &bull; ${p.stat || ''}</p>
+      <div class="p-meta-wrap">
+        ${thumbHTML}
+        <div class="p-meta">
+          <h4>${p.title}</h4>
+          <p>${p.category.toUpperCase()} &bull; ${p.url || ''} ${liveLinkHTML} &bull; ${p.stat || ''}</p>
+        </div>
       </div>
       <div class="p-actions">
         <button class="btn-p-edit" onclick="editProject(${idx})">Redaktə et</button>
@@ -216,20 +238,33 @@ window.deleteProject = function(idx) {
   }
 };
 
-let editingProjectIndex = -1;
-
 // Layihə Redaktə
 window.editProject = function(idx) {
   const p = currentData.portfolio[idx];
   editingProjectIndex = idx;
 
   document.getElementById('projectDrawerTitle').textContent = 'Layihəni Redaktə Et';
-  document.getElementById('pTitle').value = p.title;
-  document.getElementById('pCategory').value = p.category;
-  document.getElementById('pUrl').value = p.url;
-  document.getElementById('pStat').value = p.stat;
-  document.getElementById('pDesc').value = p.desc;
+  document.getElementById('pTitle').value = p.title || '';
+  document.getElementById('pCategory').value = p.category || 'corporate';
+  document.getElementById('pUrl').value = p.url || '';
+  document.getElementById('pLiveUrl').value = p.liveUrl || '';
+  document.getElementById('pStat').value = p.stat || '';
+  document.getElementById('pDesc').value = p.desc || '';
   document.getElementById('pTags').value = (p.tags || []).join(', ');
+
+  currentProjectImage = p.imageUrl || '';
+  const previewWrap = document.getElementById('imgPreviewWrap');
+  const previewImg = document.getElementById('projectPreviewImg');
+  const urlInput = document.getElementById('pImageUrlInput');
+
+  if (currentProjectImage) {
+    previewImg.src = currentProjectImage;
+    previewWrap.style.display = 'flex';
+    urlInput.value = currentProjectImage.startsWith('data:') ? '' : currentProjectImage;
+  } else {
+    previewWrap.style.display = 'none';
+    urlInput.value = '';
+  }
 
   document.getElementById('newProjectDrawer').style.display = 'block';
   document.getElementById('pTitle').focus();
@@ -311,7 +346,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const adminWrapper = document.getElementById('adminWrapper');
   const loginError = document.getElementById('loginError');
 
-  // Əgər sessiyada artıq daxil olubsa:
   if (sessionStorage.getItem('admin_authenticated') === 'true') {
     loginOverlay.style.display = 'none';
     adminWrapper.style.display = 'grid';
@@ -367,17 +401,71 @@ document.addEventListener('DOMContentLoaded', () => {
     saveDataToStorage();
   });
 
+  // Şəkil Seçimi: Fayl Yükləmə (Base64)
+  const fileInput = document.getElementById('pImageFileInput');
+  const urlInput = document.getElementById('pImageUrlInput');
+  const previewWrap = document.getElementById('imgPreviewWrap');
+  const previewImg = document.getElementById('projectPreviewImg');
+  const removeImgBtn = document.getElementById('removeImgBtn');
+
+  if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          currentProjectImage = event.target.result;
+          previewImg.src = currentProjectImage;
+          previewWrap.style.display = 'flex';
+          urlInput.value = '';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Şəkil Seçimi: URL Daxil Etmə
+  if (urlInput) {
+    urlInput.addEventListener('input', () => {
+      const val = urlInput.value.trim();
+      if (val) {
+        currentProjectImage = val;
+        previewImg.src = currentProjectImage;
+        previewWrap.style.display = 'flex';
+      } else {
+        currentProjectImage = '';
+        previewWrap.style.display = 'none';
+      }
+    });
+  }
+
+  // Şəkli Sil
+  if (removeImgBtn) {
+    removeImgBtn.addEventListener('click', () => {
+      currentProjectImage = '';
+      previewWrap.style.display = 'none';
+      previewImg.src = '';
+      urlInput.value = '';
+      if (fileInput) fileInput.value = '';
+    });
+  }
+
   // Yeni Layihə Drawer Aç/Bağla
   const drawer = document.getElementById('newProjectDrawer');
   document.getElementById('openNewProjectBtn').addEventListener('click', () => {
     editingProjectIndex = -1;
+    currentProjectImage = '';
     document.getElementById('projectDrawerTitle').textContent = 'Yeni Layihə Məlumatları';
     document.getElementById('pTitle').value = '';
     document.getElementById('pCategory').value = 'corporate';
     document.getElementById('pUrl').value = '';
+    document.getElementById('pLiveUrl').value = '';
     document.getElementById('pStat').value = '';
     document.getElementById('pDesc').value = '';
     document.getElementById('pTags').value = '';
+    urlInput.value = '';
+    if (fileInput) fileInput.value = '';
+    previewWrap.style.display = 'none';
     drawer.style.display = 'block';
   });
 
@@ -389,6 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = document.getElementById('pTitle').value.trim();
     const category = document.getElementById('pCategory').value;
     const url = document.getElementById('pUrl').value.trim();
+    const liveUrl = document.getElementById('pLiveUrl').value.trim();
     const stat = document.getElementById('pStat').value.trim();
     const desc = document.getElementById('pDesc').value.trim();
     const rawTags = document.getElementById('pTags').value.trim();
@@ -404,6 +493,8 @@ document.addEventListener('DOMContentLoaded', () => {
       title,
       category,
       url,
+      liveUrl: liveUrl || (url ? `https://${url}` : '#'),
+      imageUrl: currentProjectImage,
       stat,
       desc,
       tags
