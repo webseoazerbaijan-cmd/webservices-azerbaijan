@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İdarəetmə Paneli — WebServices Azerbaijan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <!-- PIN GİRİŞ EKRANI -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-logo">
+        <span class="logo-sym">W</span>
+        <h3>WebServices Admin</h3>
+      </div>
+      <p class="login-desc">Saytın məzmununu dəyişmək üçün PIN kodu daxil edin</p>
+      <form id="pinForm">
+        <input type="password" id="pinInput" placeholder="PIN kod (standart: admin123)" autofocus required>
+        <button type="submit" class="btn-login">Daxil Ol</button>
+        <p class="login-err" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ƏSAS ADMİN İNTERFEYSİ -->
+  <div class="admin-wrapper" id="adminWrapper" style="display: none;">
+    <!-- Sol Yan Menyu -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="admin-brand">
+          <span class="logo-sym">W</span>
+          <span class="brand-title">Admin Panel</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-tab active" data-tab="brandTab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span>Loqo və Brend</span>
+        </button>
+        <button class="nav-tab" data-tab="heroTab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <span>Hero &amp; Əsas Mətnlər</span>
+        </button>
+        <button class="nav-tab" data-tab="portfolioTab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>Gördüyümüz İşlər (Portfel)</span>
+        </button>
+        <button class="nav-tab" data-tab="servicesTab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Xidmətlər Mətni</span>
+        </button>
+        <button class="nav-tab" data-tab="contactTab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>Əlaqə Məlumatları</span>
+        </button>
+        <button class="nav-tab" data-tab="exportTab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Yaddaş və İxrac</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="btn-view-site">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Sayta Qayıt</span>
+        </a>
+        <button id="logoutBtn" class="btn-logout">Çıxış</button>
+      </div>
+    </aside>
+
+    <!-- Əsas Məzmun Sahəsi -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2 id="currentTabTitle">Loqo və Brend Tənzimləmələri</h2>
+          <span class="status-pill">Canlı İdarəetmə</span>
+        </div>
+        <div class="topbar-actions">
+          <button id="saveChangesBtn" class="btn-save-main">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>DƏYİŞİKLİKLƏRİ YADDA SAXLA</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <div class="toast" id="toastMessage"></div>
+
+        <!-- 1. LOQO VƏ BREND TABI -->
+        <section class="tab-pane active" id="brandTab">
+          <div class="panel-card">
+            <h3>Loqo və Saytın Adı</h3>
+            <p class="card-desc">Saytın yuxarı sol küncündəki loqo simvolunu və brend adını dəyişin.</p>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Loqo Simvolu (1 hərf və ya ikon)</label>
+                <input type="text" id="cfgLogoSymbol" maxlength="3" placeholder="W">
+              </div>
+              <div class="form-field">
+                <label>Brendin Əsas Adı</label>
+                <input type="text" id="cfgBrandName" placeholder="WebServices">
+              </div>
+              <div class="form-field">
+                <label>Brendin Sonluğu / Vurğusu</label>
+                <input type="text" id="cfgBrandAccent" placeholder=".az">
+              </div>
+              <div class="form-field">
+                <label>Sayt Başlığı (SEO Title)</label>
+                <input type="text" id="cfgSiteTitle" placeholder="WebServices Azerbaijan">
+              </div>
+            </div>
+
+            <!-- Canlı Loqo Önizləməsi -->
+            <div class="preview-box">
+              <span class="prev-label">Loqo Önizləməsi:</span>
+              <div class="preview-logo">
+                <span class="logo-symbol" id="prevLogoSym">W</span>
+                <span class="logo-text" id="prevLogoText">WebServices<span class="logo-accent" id="prevLogoAcc">.az</span></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. HERO TABI -->
+        <section class="tab-pane" id="heroTab">
+          <div class="panel-card">
+            <h3>Hero (Əsas Ekran) Başlıqları</h3>
+            <p class="card-desc">İstifadəçinin sayta daxil olanda gördüyü ilk mətnləri redaktə edin.</p>
+
+            <div class="form-field">
+              <label>Yuxarı Nişan (Badge) Mətni</label>
+              <input type="text" id="cfgHeroBadge" placeholder="Azərbaycanda №1 Sürət və SEO Standartları">
+            </div>
+
+            <div class="form-field">
+              <label>Əsas Başlıq (Giriş hissəsi)</label>
+              <input type="text" id="cfgHeroTitleStart" placeholder="Biznesiniz üçün">
+            </div>
+
+            <div class="form-field">
+              <label>Vurğulanan Başlıq (Rəngli qradiyent hissə)</label>
+              <input type="text" id="cfgHeroTitleGrad" placeholder="sürətli, müasir">
+            </div>
+
+            <div class="form-field">
+              <label>Başlığın Sonu</label>
+              <input type="text" id="cfgHeroTitleEnd" placeholder="və Google-da lider saytlar.">
+            </div>
+
+            <div class="form-field">
+              <label>Giriş Alt Mətni (Açıqlama)</label>
+              <textarea id="cfgHeroSubtitle" rows="3"></textarea>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3>Əsas Göstəricilər (Statistika Qutuları)</h3>
+            <div class="form-grid-4">
+              <div class="form-field">
+                <label>1-ci Rəqəm &amp; Başlıq</label>
+                <input type="text" id="cfgMetricVal1" placeholder="99+">
+                <input type="text" id="cfgMetricLbl1" placeholder="PageSpeed Performans">
+              </div>
+              <div class="form-field">
+                <label>2-ci Rəqəm &amp; Başlıq</label>
+                <input type="text" id="cfgMetricVal2" placeholder="100%">
+                <input type="text" id="cfgMetricLbl2" placeholder="Mobil Uyğunluq">
+              </div>
+              <div class="form-field">
+                <label>3-cü Rəqəm &amp; Başlıq</label>
+                <input type="text" id="cfgMetricVal3" placeholder="3X">
+                <input type="text" id="cfgMetricLbl3" placeholder="Daha Çox Ziyarətçi">
+              </div>
+              <div class="form-field">
+                <label>4-cü Rəqəm &amp; Başlıq</label>
+                <input type="text" id="cfgMetricVal4" placeholder="24/7">
+                <input type="text" id="cfgMetricLbl4" placeholder="Dəstək">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. PORTFOLIO TABI (GÖRDÜYÜMÜZ İŞLƏR) -->
+        <section class="tab-pane" id="portfolioTab">
+          <div class="panel-card">
+            <div class="card-head-row">
+              <div>
+                <h3>Gördüyünüz İşlərin Siyahısı</h3>
+                <p class="card-desc">Portfelinizə yeni layihələr əlavə edin, mövcud işləri redaktə edin və ya silin.</p>
+              </div>
+              <button id="openNewProjectBtn" class="btn-add-item">+ YENİ LAYİHƏ ƏLAVƏ ET</button>
+            </div>
+
+            <!-- Yeni Layihə Forması (Gizli / Açılan) -->
+            <div class="new-project-drawer" id="newProjectDrawer" style="display: none;">
+              <h4 id="projectDrawerTitle">Yeni Layihə Məlumatları</h4>
+              <div class="form-grid">
+                <div class="form-field">
+                  <label>Layihənin Adı *</label>
+                  <input type="text" id="pTitle" placeholder="Məsələn: Forma Architectural Studio">
+                </div>
+                <div class="form-field">
+                  <label>Kateqoriya *</label>
+                  <select id="pCategory">
+                    <option value="corporate">Korporativ Sayt</option>
+                    <option value="ecommerce">E-Ticarət</option>
+                    <option value="seo">SEO Layihəsi</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label>Domen / Link Adı</label>
+                  <input type="text" id="pUrl" placeholder="forma-architecture.az">
+                </div>
+                <div class="form-field">
+                  <label>Statistika / Nəticə Göstəricisi</label>
+                  <input type="text" id="pStat" placeholder="Sürət: 99/100 • Google Top 1">
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label>Qısa Təsvir *</label>
+                <textarea id="pDesc" rows="2" placeholder="Layihə haqqında müştərilərə göstəriləcək məlumat..."></textarea>
+              </div>
+
+              <div class="form-field">
+                <label>Taqlar (Vergüllə ayırın)</label>
+                <input type="text" id="pTags" placeholder="Fərdi Veb Tərtibatı, Ultra Sürət, +160% Üzvi Sorğu">
+              </div>
+
+              <div class="drawer-actions">
+                <button type="button" id="saveProjectBtn" class="btn-save-project">Layihəni Saxla</button>
+                <button type="button" id="cancelProjectBtn" class="btn-cancel-project">Ləğv Et</button>
+              </div>
+            </div>
+
+            <!-- Layihələr Cədvəli / Kartları -->
+            <div class="projects-list-admin" id="projectsListAdmin">
+              <!-- JS tərəfindən doldurulacaq -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. XİDMƏTLƏR TABI -->
+        <section class="tab-pane" id="servicesTab">
+          <div class="panel-card">
+            <h3>Xidmətlər Bölməsi Başlıqları</h3>
+            <div class="form-field">
+              <label>Bölmə Üst Nişanı</label>
+              <input type="text" id="cfgServicesBadge" placeholder="NƏ TƏKLİF EDİRİK?">
+            </div>
+            <div class="form-field">
+              <label>Əsas Bölmə Başlığı</label>
+              <input type="text" id="cfgServicesHeading" placeholder="Gördüyümüz işlər və ixtisaslaşdığımız sahələr">
+            </div>
+            <div class="form-field">
+              <label>Bölmə İzahı</label>
+              <textarea id="cfgServicesDesc" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3>Xidmət Kartlarının Mətnləri</h3>
+            <div class="services-list-admin" id="servicesListAdmin">
+              <!-- JS tərəfindən 6 xidmət üçün redaktə sahələri yaradılacaq -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. ƏLAQƏ TABI -->
+        <section class="tab-pane" id="contactTab">
+          <div class="panel-card">
+            <h3>Əlaqə Məlumatları</h3>
+            <p class="card-desc">İstifadəçilərin saytda gördüyü telefon, WhatsApp, e-poçt və ünvanı dəyişin.</p>
+
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Telefon Nömrəsi</label>
+                <input type="text" id="cfgPhone" placeholder="+994 50 000 00 00">
+              </div>
+              <div class="form-field">
+                <label>WhatsApp Nömrəsi (Beynəlxalq formatda, boşluqsuz)</label>
+                <input type="text" id="cfgWhatsApp" placeholder="994500000000">
+              </div>
+              <div class="form-field">
+                <label>E-Poçt Ünvanı</label>
+                <input type="email" id="cfgEmail" placeholder="info@webservices.az">
+              </div>
+              <div class="form-field">
+                <label>Ofis / Şəhər Ünvanı</label>
+                <input type="text" id="cfgAddress" placeholder="Bakı şəhəri, Azərbaycan">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. YADDAŞ VƏ İXRAC TABI -->
+        <section class="tab-pane" id="exportTab">
+          <div class="panel-card">
+            <h3>Bütün Məlumatların İxracı və Ehtiyat Nüsxəsi</h3>
+            <p class="card-desc">Saytınızdakı bütün dəyişiklikləri JSON formatında kopyalayıb saxlaya və ya başqa brauzerə köçürə bilərsiniz.</p>
+
+            <div class="export-actions">
+              <button id="exportJsonBtn" class="btn-action">Bütün Konfiqurasiyanı Kopyala (JSON)</button>
+              <button id="downloadJsonBtn" class="btn-action">Fayl Kimi İndir (.json)</button>
+              <button id="resetDefaultsBtn" class="btn-danger">İlkin Standartlara Qaytar (Reset)</button>
+            </div>
+
+            <div class="form-field" style="margin-top: 1.5rem;">
+              <label>JSON Məlumatı</label>
+              <textarea id="jsonOutput" rows="8" readonly></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
