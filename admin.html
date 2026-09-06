@@ -214,12 +214,38 @@
                   </select>
                 </div>
                 <div class="form-field">
-                  <label>Domen / Link Adı</label>
+                  <label>Domen Adı (Görünən qısa mətn)</label>
                   <input type="text" id="pUrl" placeholder="forma-architecture.az">
+                </div>
+                <div class="form-field">
+                  <label>Canlı Sayt Linki (URL) *</label>
+                  <input type="url" id="pLiveUrl" placeholder="https://forma-architecture.az">
                 </div>
                 <div class="form-field">
                   <label>Statistika / Nəticə Göstəricisi</label>
                   <input type="text" id="pStat" placeholder="Sürət: 99/100 • Google Top 1">
+                </div>
+              </div>
+
+              <!-- ŞƏKİL ƏLAVƏ ETMƏ HİSSƏSİ -->
+              <div class="form-field image-upload-box">
+                <label>Layihənin Şəkli (Kompüterdən seçin və ya birbaşa link qoyun)</label>
+                <div class="image-inputs-row">
+                  <div class="file-upload-wrap">
+                    <label for="pImageFileInput" class="btn-file-select">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      <span>Kompüterdən Şəkil Seç</span>
+                    </label>
+                    <input type="file" id="pImageFileInput" accept="image/*" style="display: none;">
+                  </div>
+                  <span class="upload-or">və ya</span>
+                  <input type="url" id="pImageUrlInput" placeholder="Şəkil URL linki (https://...)" class="input-img-url">
+                </div>
+
+                <!-- Şəkil Önizləməsi -->
+                <div class="img-preview-wrap" id="imgPreviewWrap" style="display: none;">
+                  <img id="projectPreviewImg" src="" alt="Layihə önizləməsi">
+                  <button type="button" id="removeImgBtn" class="btn-remove-img">Şəkli Sil</button>
                 </div>
               </div>
 
