@@ -1086,6 +1086,24 @@ button {
   color: var(--text-muted);
 }
 
+.admin-entry-link {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.admin-entry-link:hover {
+  color: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  background: rgba(6, 182, 212, 0.08);
+}
+
 /* --- RESPONSIVE / MOBİL --- */
 @media (max-width: 1024px) {
   .services-grid {
