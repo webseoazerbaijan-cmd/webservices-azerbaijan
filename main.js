@@ -65,6 +65,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const screenClass = `screen-${(idx % 4) + 1}`;
             const tagsHTML = (p.tags || []).map(t => `<span class="badge-pill">${t}</span>`).join('');
+            const liveUrl = p.liveUrl || (p.url ? `https://${p.url}` : '');
+
+            const screenHTML = p.imageUrl 
+              ? `<div class="mockup-screen with-image" style="background-image: url('${p.imageUrl}');"></div>`
+              : `<div class="mockup-screen ${screenClass}">
+                  <div class="screen-content">
+                    <span class="screen-tag">${p.category === 'ecommerce' ? 'Onlayn Mağaza' : p.category === 'seo' ? 'SEO Layihəsi' : 'Veb Platforma'}</span>
+                    <h4>${p.title}</h4>
+                    <p class="screen-stat">${p.stat || 'Sürət: 99/100'}</p>
+                  </div>
+                </div>`;
+
+            const mediaWrapper = liveUrl 
+              ? `<a href="${liveUrl}" target="_blank" rel="noopener noreferrer" class="media-link" title="Canlı sayta bax">${screenHTML}</a>` 
+              : screenHTML;
+
+            const liveBtnHTML = liveUrl 
+              ? `<a href="${liveUrl}" target="_blank" rel="noopener noreferrer" class="link-view-project" style="color: var(--accent-secondary); margin-right: 1.25rem;">Canlı Sayta Keçid ↗</a>` 
+              : '';
 
             article.innerHTML = `
               <div class="project-media">
@@ -73,13 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
                     <span class="mockup-url">${p.url || 'layihe.az'}</span>
                   </div>
-                  <div class="mockup-screen ${screenClass}">
-                    <div class="screen-content">
-                      <span class="screen-tag">${p.category === 'ecommerce' ? 'Onlayn Mağaza' : p.category === 'seo' ? 'SEO Layihəsi' : 'Veb Platforma'}</span>
-                      <h4>${p.title}</h4>
-                      <p class="screen-stat">${p.stat || 'Sürət: 99/100'}</p>
-                    </div>
-                  </div>
+                  ${mediaWrapper}
                 </div>
               </div>
               <div class="project-info">
@@ -89,8 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="project-badges">
                   ${tagsHTML}
                 </div>
-                <div class="project-cta-row">
-                  <a href="#contact" class="link-view-project">Bu üslubda sayt istəyirəm →</a>
+                <div class="project-cta-row" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                  ${liveBtnHTML}
+                  <a href="#contact" class="link-view-project" style="font-size: 0.8125rem; color: var(--text-muted);">Sifariş Et →</a>
                 </div>
               </div>
             `;
