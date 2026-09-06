@@ -1,0 +1,7 @@
+# robots.txt for WebServices Azerbaijan
+# https://webservices.az/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://webservices.az/sitemap.xml
