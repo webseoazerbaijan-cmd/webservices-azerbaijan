@@ -1,0 +1,16 @@
+{
+  "name": "editorial-web-seo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Editorial Art Direction Portfolio - Web Development x SEO",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open",
+    "start": "vite --open",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
